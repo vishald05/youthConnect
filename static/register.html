@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - EnviConnect</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 🌱 Navbar -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="/images/logo.png" alt="Logo" class="logo">
+      <span class="brand">EnviConnect</span>
+    </div>
+    <div class="navbar-right">
+      <span class="nav-item">Create</span>
+      <span class="nav-item">🔔</span>
+      <img src="/images/profile.png" alt="Profile" class="profile-icon">
+    </div>
+  </nav>
+
+  <!-- 📝 Register Form -->
+  <div class="login-container">
+    <h2>Create Your Account</h2>
+    <form action="/register" method="POST" id="registerForm">
+      <input type="text" name="username" id="username" placeholder="Username" required>
+      <small id="username-check" style="color:red; display:none;">Username already exists</small>
+      
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirmPassword" placeholder="Re-enter Password" required>
+      <br><br>
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="/login.html">Login</a></p>
+    </form>
+  </div>
+
+  <script>
+    const usernameInput = document.getElementById("username");
+    const checkMsg = document.getElementById("username-check");
+
+    usernameInput.addEventListener("input", async () => {
+      const res = await fetch(`/check-username?username=${usernameInput.value}`);
+      const data = await res.json();
+      if (data.exists) {
+        checkMsg.style.display = "block";
+      } else {
+        checkMsg.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
