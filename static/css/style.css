@@ -160,3 +160,79 @@ a {
   margin: 0 0 5px 0;
   color: #2f8f46;
 }
+
+
+/* Create Project Page */
+
+.create-project-container {
+  max-width: 700px;
+  width: 700px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.create-project-container h1 {
+  font-size: 26px;
+  margin-bottom: 30px;
+  color: #2f8f46;
+  text-align: center;
+}
+
+/* Form fields */
+.create-project-container form label {
+  display: block;
+  font-weight: 600;
+  color: #2f8f46;
+  margin-bottom: 6px;
+}
+
+.create-project-container form input[type="text"],
+.create-project-container form input[type="number"],
+.create-project-container form input[type="date"],
+.create-project-container form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 25px;
+  border: 2px solid #cceacc;
+  border-radius: 8px;
+  background-color: #f9fdfb;
+  font-size: 15px;
+  color: #1c3b2c;
+}
+
+.create-project-container form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Button */
+.create-project-container button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  float: right;
+  transition: background-color 0.3s ease;
+}
+
+.create-project-container button:hover {
+  background-color: #419944;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .create-project-container {
+    padding: 25px;
+    margin: 20px;
+  }
+
+  .create-project-container h1 {
+    font-size: 22px;
+  }
+}

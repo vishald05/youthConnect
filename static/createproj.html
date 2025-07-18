@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Project - GreenConnect</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="/images/logo.png" alt="Logo" class="logo" />
+      <span class="brand">GreenConnect</span>
+    </div>
+    <div class="navbar-right">
+      <a class="nav-item" href="/dashboard">Dashboard</a>
+      <a class="nav-item" href="/projects">Projects</a>
+      <a class="nav-item" href="/profile">Profile</a>
+      <a class="nav-item logout" href="/logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="create-project-container">
+    <h1>Create New Project</h1>
+    <form id="projectForm">
+      <label for="title">Project Name</label>
+      <input type="text" id="title" name="title" required />
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" required placeholder="Describe your project, its goals, and what participants will do."></textarea>
+
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" required />
+
+      <label for="startDate">Start Date</label>
+      <input type="date" id="startDate" name="startDate" required />
+
+      <label for="duration">Duration (in days)</label>
+      <input type="number" id="duration" name="duration" min="1" required />
+
+      <label for="minParticipants">Minimum Participants</label>
+      <input type="number" id="minParticipants" name="minParticipants" min="1" required />
+
+      <button type="submit">Create Project</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = {
+        title: form.title.value,
+        description: form.description.value,
+        location: form.location.value,
+        startDate: form.startDate.value,
+        duration: form.duration.value,
+        minParticipants: form.minParticipants.value,
+        createdBy: localStorage.getItem('username') || 'anonymous'
+      };
+
+      try {
+        const res = await fetch('/projects/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          alert('✅ Project created!');
+          window.location.href = '/home.html';
+        } else {
+          alert(result.error || '❌ Error creating project');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('❌ Server error');
+      }
+    });
+  </script>
+</body>
+</html>
