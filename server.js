@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
 const authRoutes = require('./routes/auth');
+const projRoutes = require('./routes/project');
 // const 
 const PORT = 3000;
 const uri = "mongodb+srv://vishaldhanasekarcse2023:youth25@cluster0.kiqfamu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -33,6 +34,7 @@ app.get('/home/createproj', (req, res) => {
 });
 
 app.use('/', authRoutes);
+app.use('/', projRoutes);
 
 
 

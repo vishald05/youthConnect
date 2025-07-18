@@ -33,14 +33,14 @@
 
     <!-- Main Feed -->
     <div class="main-feed">
-      <div class="post-card">
+      <!-- <div class="post-card">
         <h3>🌱 Project Post</h3>
         <p>Post for upcoming community project or post from communities I follow.</p>
       </div>
       <div class="post-card">
         <h3>🧑‍🔧 Volunteer Experience</h3>
         <p>Members sharing their completed work, pictures, or videos from sustainability projects.</p>
-      </div>
+      </div> -->
     </div>
 
     <!-- Right Panel -->
@@ -55,5 +55,33 @@
       </div>
     </div>
   </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const feed = document.querySelector(".main-feed");
+
+    try {
+      const res = await fetch("/all");
+      const projects = await res.json();
+
+      projects.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "post-card";
+        card.innerHTML = `
+          <h3>🌱 ${p.name}</h3>
+          <p><strong>📍 Location:</strong> ${p.location}</p>
+          <p><strong>📅 Date:</strong> ${new Date(p.date).toLocaleDateString()}</p>
+          <p><strong>🕒 Duration:</strong> ${p.duration}</p>
+          <p><strong>👥 Min Participants:</strong> ${p.minParticipants}</p>
+          <p>${p.description}</p>
+        `;
+        feed.prepend(card);
+      });
+    } catch (err) {
+      console.error("Failed to load projects", err);
+    }
+  });
+  </script>
+
 </body>
 </html>
