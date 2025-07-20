@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose'); 
 const path = require('path');
+const session = require('express-session');
 const app = express();
 const authRoutes = require('./routes/auth');
 const projRoutes = require('./routes/project');
@@ -17,11 +18,20 @@ mongoose.connect(uri, {useNewUrlParser : true,
 
 //! No idea about this
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 
 app.use(express.static(path.join(__dirname,'static')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'static', 'login.html'));
+});
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'static', 'login.html'));
 });
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'static', 'register.html'));
@@ -33,8 +43,11 @@ app.get('/home/createproj', (req, res) => {
     res.sendFile(path.join(__dirname, 'static', 'createproj.html'));
 });
 
+
 app.use('/', authRoutes);
 app.use('/', projRoutes);
+
+
 
 
 

@@ -3,8 +3,12 @@ const router = express.Router();
 const Project = require('../models/project');
 
 router.post('/createproj', async (req, res) => {
-  const { title, description, location, startDate, duration, minParticipants, createdBy } = req.body;
-
+  const { title, description, location, startDate, duration, minParticipants} = req.body;
+  const createdBy = req.session.username;
+  if (!createdBy) {
+    return res.status(401).send("User not logged in");
+  }
+  console.log(createdBy);
   try {
     const newProject = new Project({
       title,

@@ -7,7 +7,7 @@
 </head>
 <body>
   <!-- 🌱 Navbar -->
-  <nav class="navbar">
+  <!-- <nav class="navbar">
     <div class="navbar-left">
       <img src="/images/logo.png" alt="Logo" class="logo">
       <span class="brand">EnviConnect</span>
@@ -17,7 +17,27 @@
       <span class="nav-item">🔔</span>
       <img src="/images/profile.png" alt="Profile" class="profile-icon">
     </div>
+  </nav> -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <img src="/images/logo.png" alt="Logo" class="logo">
+      <span class="brand">EnviConnect</span>
+    </div>
+    <div class="navbar-right">
+      <span class="nav-item"><a href="/createproj.html">Create</a></span>
+      <span class="nav-item">🔔</span>
+
+      <div class="profile-dropdown">
+        <img src="/images/profile.png" alt="Profile" class="profile-icon" id="profileToggle">
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="dropdown-username" id="dropdownUsername">Username</div>
+          <a href="/settings.html">⚙️ Settings</a>
+          <a href="/logout">↩️ log Out</a>
+        </div>
+      </div>
+    </div>
   </nav>
+
 
   <!-- 🏠 Home Layout -->
   <div class="home-container">
@@ -63,12 +83,12 @@
     try {
       const res = await fetch("/all");
       const projects = await res.json();
-
+      console.log(projects);
       projects.forEach(p => {
         const card = document.createElement("div");
         card.className = "post-card";
         card.innerHTML = `
-          <h3>🌱 ${p.name}</h3>
+          <h3>🌱 ${p.createdBy}</h3>
           <p><strong>📍 Location:</strong> ${p.location}</p>
           <p><strong>📅 Date:</strong> ${new Date(p.date).toLocaleDateString()}</p>
           <p><strong>🕒 Duration:</strong> ${p.duration}</p>
@@ -81,6 +101,32 @@
       console.error("Failed to load projects", err);
     }
   });
+  const profileIcon = document.getElementById("profileToggle");
+  const dropdownMenu = document.getElementById("dropdownMenu");
+  const dropdownUsername = document.getElementById("dropdownUsername");
+
+  // Toggle dropdown visibility
+  profileIcon.addEventListener("click", () => {
+    dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+  });
+
+  // Hide dropdown when clicking outside
+  window.addEventListener("click", function (e) {
+    if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+      dropdownMenu.style.display = "none";
+    }
+  });
+
+  // Fetch username from backend
+  fetch("/get-username")
+    .then(res => res.json())
+    .then(data => {
+      dropdownUsername.textContent = data.username || "User";
+    })
+    .catch(err => {
+      console.error("Failed to fetch username", err);
+    });
+
   </script>
 
 </body>
